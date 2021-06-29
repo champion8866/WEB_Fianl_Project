@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.baseURL,
+  baseURL: "https://meetup-ntu.herokuapp.com/",
 });
 
 console.log(process.env.baseURL);

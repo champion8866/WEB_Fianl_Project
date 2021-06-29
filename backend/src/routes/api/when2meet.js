@@ -224,23 +224,42 @@ router.get('/get-mails', async function (req, res) {
 
   let mails = []
   exist.users.map((e) => (
-    mails.push(e.email) 
+    mails.push(e.email)
   ))
 
   res.send({ mails: mails, actName: exist.name});
-  
+
+});
+
+router.get('/get-delete-mails', async function (req, res) {
+  const { attendCode } = req.query;
+  const exist = await db.ActivityModel.findOne({ code: attendCode }).populate('users');
+
+  let mails = []
+  const creator_name = exist.creator ;
+  for(let i = 0 ; i < exist.users.length ; i++){
+    if(exist.users[i].name !== creator_name){
+      mails.push(exist.users[i].email) ;
+    }
+  }
+
+
+  res.send({ mails: mails, actName: exist.name, creator_name: creator_name});
+
 });
 
 router.post('/delete', async function (req, res) {
   const { attendCode } = req.body;
   const activity = await db.ActivityModel.findOne({ code: attendCode }).populate('users') ;
   const activity_id = activity._id;
-  
+  // console.log(activity_id) ;
+
   const U = activity.users ;
   for(let i = 0 ; i < U.length ; i++){
     await db.UserModel.updateOne({ name: U[i].name }, { $pull: { activities: activity_id } });
-    await db.TimeModel.deleteOne({ sender: U[i]._id }, {activity: activity_id });
   }
+
+  await db.TimeModel.deleteMany({ activity: activity_id });
   await db.ActivityModel.deleteOne({ code: attendCode });
 
   res.send({ status: true });
@@ -249,8 +268,8 @@ router.post('/delete', async function (req, res) {
 
 router.post('/quit', async function (req, res) {
   const { name, attendCode } = req.body;
-  console.log(name, attendCode);
-  
+  // console.log(name, attendCode);
+
   const activity = await db.ActivityModel.findOne({ code: attendCode })
   const activity_id = activity._id;
   const user = await db.UserModel.findOne({ name: name });
@@ -259,7 +278,7 @@ router.post('/quit', async function (req, res) {
   await db.ActivityModel.updateOne({ code: attendCode }, { $pull: { users: user_id } });
   await db.UserModel.updateOne({ name: name }, { $pull: { activities: activity_id } });
   await db.TimeModel.deleteOne({ sender: user_id }, {activity: activity_id });
-  
+
   res.send({ status: true });
 
 });
