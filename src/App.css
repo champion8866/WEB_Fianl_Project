@@ -2,7 +2,15 @@
 .meetApp {
   color: white;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
+}
+
+.paypal-button {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  margin: 30px 10px 5px 5px;
+  color: #787878;
 }
 
 input {
@@ -18,6 +26,7 @@ input {
   border-radius: 5px;
 
   padding: 1% 5% 1% 5%;
+  margin: 5px;
 
   text-align: center;
 
@@ -33,11 +42,11 @@ input {
 
 .icon-button {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .icon-button:hover {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .light-text {
@@ -71,8 +80,14 @@ input {
 .signIn-input-wrapper {
   display: flex;
   flex-direction: column;
+  width: 340px;
 }
 
+.signIn-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 .signIn-button-wrapper {
   display: flex;
@@ -416,7 +431,7 @@ select {
   color: #474747;
   position: fixed;
   top: 20vh;
-  left: 40vw;
+  left: 35vw;
   z-index: 1;
   /*width: 100%;
   height: 100%;*/
@@ -470,6 +485,12 @@ select {
   margin-bottom: 20px;
 }
 
+.createModal-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .createModal-time-input {
   display: flex;
   flex-direction: column;
@@ -490,8 +511,8 @@ select {
 #event-code {
   background-color: #ffffff;
   border-radius: 5px;
-  width: 110px;
-  font-size: 18px;
+  width: 88px;
+  font-size: 14px;
   text-align: center;
 }
 
