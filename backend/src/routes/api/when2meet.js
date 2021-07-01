@@ -95,8 +95,10 @@ router.post('/attend', async function (req, res) {
   const user = await db.UserModel.findOne({ name: name });
   const user_id = user._id;
 
-  if(!activity || activity.users.includes(user_id) === true){
+  if(!activity){
     res.send({ status: false });
+  } else if(activity.users.includes(user_id) === true){
+    res.send({ status: "included" });
   } else{
     const activity_id = activity._id;
     await db.ActivityModel.updateOne({ code: attendCode }, { $push: { users: user_id } });
